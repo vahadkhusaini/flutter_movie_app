@@ -1,3 +1,4 @@
+import 'package:ditonton/data/models/genre_model.dart';
 import 'package:ditonton/domain/entities/tv_series_detail.dart';
 import 'package:equatable/equatable.dart';
 
@@ -5,7 +6,7 @@ class TvSeriesDetailModelResponse extends Equatable {
   TvSeriesDetailModelResponse({
     required this.adult,
     required this.backdropPath,
-    required this.genreIds,
+    required this.genres,
     required this.id,
     required this.originalLanguage,
     required this.originalName,
@@ -19,7 +20,7 @@ class TvSeriesDetailModelResponse extends Equatable {
   });
   final bool? adult;
   final String? backdropPath;
-  final List<int>? genreIds;
+  final List<GenreModel> genres;
   final int id;
   final String? originalLanguage;
   final String? originalName;
@@ -35,7 +36,8 @@ class TvSeriesDetailModelResponse extends Equatable {
       TvSeriesDetailModelResponse(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
-        genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
+        genres: List<GenreModel>.from(
+            json["genres"].map((x) => GenreModel.fromJson(x))),
         id: json["id"],
         originalLanguage: json["original_language"],
         originalName: json["original_name"],
@@ -51,7 +53,7 @@ class TvSeriesDetailModelResponse extends Equatable {
   Map<String, dynamic> toJson() => {
         "adult": adult,
         "backdrop_path": backdropPath,
-        "genre_ids": List<dynamic>.from(genreIds!.map((x) => x)),
+        "genres": List<dynamic>.from(genres.map((x) => x.toJson())),
         "id": id,
         "original_language": originalLanguage,
         "original_name": originalName,
@@ -68,7 +70,7 @@ class TvSeriesDetailModelResponse extends Equatable {
     return TvSeriesDetail(
       adult: this.adult,
       backdropPath: this.backdropPath,
-      genreIds: this.genreIds,
+      genres: this.genres.map((genre) => genre.toEntity()).toList(),
       id: this.id,
       originalLanguage: this.originalLanguage,
       originalName: this.originalName,
@@ -87,7 +89,7 @@ class TvSeriesDetailModelResponse extends Equatable {
   List<Object?> get props => [
         adult,
         backdropPath,
-        genreIds,
+        genres,
         id,
         originalLanguage,
         originalName,

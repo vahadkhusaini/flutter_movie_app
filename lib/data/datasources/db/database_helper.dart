@@ -28,6 +28,9 @@ class DatabaseHelper {
     final path = await getDatabasesPath();
     final databasePath = '$path/ditonton.db';
 
+    // For testing: Delete existing database
+    // await deleteDatabase(databasePath);
+
     var db = await openDatabase(databasePath, version: 1, onCreate: _onCreate);
     return db;
   }
@@ -45,7 +48,7 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE  $_tblWatchlistTv (
         id INTEGER PRIMARY KEY,
-        title TEXT,
+        name TEXT,
         overview TEXT,
         posterPath TEXT
       );

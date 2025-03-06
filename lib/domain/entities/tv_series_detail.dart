@@ -5,7 +5,7 @@ class TvSeriesDetail extends Equatable {
   TvSeriesDetail({
     required this.adult,
     required this.backdropPath,
-    required this.genreIds,
+    required this.genres,
     required this.id,
     required this.originalLanguage,
     required this.originalName,
@@ -20,7 +20,7 @@ class TvSeriesDetail extends Equatable {
 
   bool? adult;
   String? backdropPath;
-  List<int>? genreIds;
+  List<Genre> genres;
   int id;
   String? originalLanguage;
   String? originalName;
@@ -36,7 +36,7 @@ class TvSeriesDetail extends Equatable {
   List<Object?> get props => [
         adult,
         backdropPath,
-        genreIds,
+        genres,
         id,
         originalLanguage,
         originalName,
