@@ -3,6 +3,7 @@
   "results": [
       {
           "adult": false,
+          "first_air_date": "2024-09-30",
           "backdrop_path": "/j5CR0gFPjwgmAXkV9HGaF4VMjIW.jpg",
           "genre_ids": [
               10766,
@@ -15,7 +16,6 @@
           "overview": "",
           "popularity": 1758.479,
           "poster_path": "/nyN8R0P1Hqwq7ksJz4O2BIAUd4W.jpg",
-          "first_air_date": "2024-09-30",
           "name": "Volta por Cima",
           "vote_average": 5.5,
           "vote_count": 17
