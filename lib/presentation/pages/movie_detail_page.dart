@@ -106,6 +106,7 @@ class DetailContent extends StatelessWidget {
                               style: kHeading5,
                             ),
                             FilledButton(
+                              // Di dalam MovieDetailPage
                               onPressed: () async {
                                 if (!isAddedWatchlist) {
                                   await Provider.of<MovieDetailNotifier>(
@@ -124,22 +125,18 @@ class DetailContent extends StatelessWidget {
                                             listen: false)
                                         .watchlistMessage;
 
-                                if (message ==
-                                        MovieDetailNotifier
-                                            .watchlistAddSuccessMessage ||
-                                    message ==
-                                        MovieDetailNotifier
-                                            .watchlistRemoveSuccessMessage) {
+                                if (message.contains('Failed')) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: Text(message),
+                                      );
+                                    },
+                                  );
+                                } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text(message)));
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text(message),
-                                        );
-                                      });
                                 }
                               },
                               child: Row(

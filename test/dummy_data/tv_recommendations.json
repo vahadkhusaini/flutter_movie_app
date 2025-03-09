@@ -1,0 +1,26 @@
+{
+    "page": 1,
+    "results": [
+        {
+            "backdrop_path": "/t15KHp3iNfHVQBNIaqUGW12xQA4.jpg",
+            "id": 60059,
+            "name": "Better Call Saul",
+            "original_name": "Better Call Saul",
+            "overview": "Six years before Saul Goodman meets Walter White. We meet him when the man who will become Saul Goodman is known as Jimmy McGill, a small-time lawyer searching for his destiny, and, more immediately, hustling to make ends meet. Working alongside, and, often, against Jimmy",
+            "poster_path": "/zjg4jpK1Wp2kiRvtt5ND0kznako.jpg",
+            "media_type": "tv",
+            "adult": false,
+            "original_language": "en",
+            "genre_ids": [
+                80,
+                18
+            ],
+            "popularity": 107.366,
+            "first_air_date": "2015-02-08",
+            "vote_average": 8.7,
+            "vote_count": 5488
+        }
+    ],
+    "total_pages": 2,
+    "total_results": 40
+}

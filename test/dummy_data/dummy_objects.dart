@@ -1,7 +1,66 @@
 import 'package:ditonton/data/models/movie_table.dart';
+import 'package:ditonton/data/models/tv_table.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/movie_detail.dart';
+import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/domain/entities/tv_series_detail.dart';
+
+final testTvSeries = TvSeries(
+  adult: false,
+  backdropPath: '/j5CR0gFPjwgmAXkV9HGaF4VMjIW.jpg',
+  genreIds: [10766, 18, 35],
+  id: 257064,
+  originalLanguage: 'pt',
+  originalName: 'Volta por Cima',
+  overview: '',
+  popularity: 1758.479,
+  posterPath: '/nyN8R0P1Hqwq7ksJz4O2BIAUd4W.jpg',
+  firstAirDate: '2024-09-30',
+  name: 'Volta por Cima',
+  voteAverage: 5.5,
+  voteCount: 17,
+);
+
+final testTvSeriesList = [testTvSeries];
+
+final testTvSeriesDetail = TvSeriesDetail(
+  adult: false,
+  backdropPath: '/9faGSFi5jam6pDWGNd0p8JcJgXQ.jpg',
+  genres: [Genre(id: 18, name: 'Drama'), Genre(id: 80, name: 'Crime')],
+  id: 1396,
+  originalLanguage: 'en',
+  originalName: 'Breaking Bad',
+  overview:
+      "Walter White, a New Mexico chemistry teacher, is diagnosed with Stage III cancer and given a prognosis of only two years left to live. He becomes filled with a sense of fearlessness and an unrelenting desire to secure his family's financial future at any cost as he enters the dangerous world of drugs and crime.",
+  popularity: 194.507,
+  posterPath: '/ineLOBPG8AZsluYwnkMpHRyu7L.jpg',
+  firstAirDate: '2008-01-20',
+  name: 'Breaking Bad',
+  voteAverage: 8.924,
+  voteCount: 15156,
+);
+
+final testWatchlistTvSeries = TvSeries.watchlist(
+  id: 1,
+  name: 'Name',
+  posterPath: '/path.jpg',
+  overview: 'Overview',
+);
+
+final testTvTable = TvTable(
+  id: 1,
+  name: 'name',
+  posterPath: 'posterPath',
+  overview: 'overview',
+);
+
+final testTvMap = {
+  'id': 1,
+  'name': 'name',
+  'overview': 'overview',
+  'posterPath': 'posterPath',
+};
 
 final testMovie = Movie(
   adult: false,
