@@ -42,24 +42,27 @@ final testTvSeriesDetail = TvSeriesDetail(
 );
 
 final testWatchlistTvSeries = TvSeries.watchlist(
-  id: 1,
-  name: 'Name',
-  posterPath: '/path.jpg',
-  overview: 'Overview',
+  id: 1396,
+  name: 'Breaking Bad',
+  posterPath: '/ineLOBPG8AZsluYwnkMpHRyu7L.jpg',
+  overview:
+      'Walter White, a New Mexico chemistry teacher, is diagnosed with Stage III cancer and given a prognosis of only two years left to live. He becomes filled with a sense of fearlessness and an unrelenting desire to secure his financial future at any cost as he enters the dangerous world of drugs and crime.',
 );
 
 final testTvTable = TvTable(
-  id: 1,
-  name: 'name',
-  posterPath: 'posterPath',
-  overview: 'overview',
+  id: 1396,
+  name: 'Breaking Bad',
+  posterPath: '/ineLOBPG8AZsluYwnkMpHRyu7L.jpg',
+  overview:
+      'Walter White, a New Mexico chemistry teacher, is diagnosed with Stage III cancer and given a prognosis of only two years left to live. He becomes filled with a sense of fearlessness and an unrelenting desire to secure his financial future at any cost as he enters the dangerous world of drugs and crime.',
 );
 
 final testTvMap = {
-  'id': 1,
-  'name': 'name',
-  'overview': 'overview',
-  'posterPath': 'posterPath',
+  'id': 1396,
+  'name': 'Breaking Bad',
+  'posterPath': '/ineLOBPG8AZsluYwnkMpHRyu7L.jpg',
+  'overview':
+      'Walter White, a New Mexico chemistry teacher, is diagnosed with Stage III cancer and given a prognosis of only two years left to live. He becomes filled with a sense of fearlessness and an unrelenting desire to secure his financial future at any cost as he enters the dangerous world of drugs and crime.',
 };
 
 final testMovie = Movie(
