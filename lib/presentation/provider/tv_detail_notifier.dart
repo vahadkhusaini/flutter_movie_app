@@ -27,8 +27,8 @@ class TvDetailNotifier extends ChangeNotifier {
     required this.removeWatchlistTv,
   });
 
-  late TvSeriesDetail _tvDetail;
-  TvSeriesDetail get tv => _tvDetail;
+  late TvSeriesDetail _tvSeriesDetail;
+  TvSeriesDetail get tv => _tvSeriesDetail;
 
   RequestState _tvSeriesState = RequestState.Empty;
   RequestState get tvSeriesState => _tvSeriesState;
@@ -58,7 +58,7 @@ class TvDetailNotifier extends ChangeNotifier {
       },
       (tv) {
         _recommendationState = RequestState.Loading;
-        _tvDetail = tv;
+        _tvSeriesDetail = tv;
         notifyListeners();
         recommendationResult.fold(
           (failure) {
