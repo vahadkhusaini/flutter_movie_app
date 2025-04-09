@@ -70,14 +70,20 @@ class DetailContent extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return Stack(
       children: [
-        CachedNetworkImage(
-          imageUrl: 'https://image.tmdb.org/t/p/w500${tv.posterPath}',
-          width: screenWidth,
-          placeholder: (context, url) => Center(
-            child: CircularProgressIndicator(),
-          ),
-          errorWidget: (context, url, error) => Icon(Icons.error),
-        ),
+        tv.posterPath != null
+            ? CachedNetworkImage(
+                imageUrl: 'https://image.tmdb.org/t/p/w500${tv.posterPath}',
+                width: screenWidth,
+                placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              )
+            : Image.asset(
+                'assets/no_images.png',
+                width: screenWidth,
+                fit: BoxFit.cover,
+              ),
         Container(
           margin: const EdgeInsets.only(top: 48 + 8),
           child: DraggableScrollableSheet(
@@ -212,18 +218,26 @@ class DetailContent extends StatelessWidget {
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(8),
                                               ),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    'https://image.tmdb.org/t/p/w500${tv.posterPath}',
-                                                placeholder: (context, url) =>
-                                                    Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(Icons.error),
-                                              ),
+                                              child: tv.posterPath != null
+                                                  ? CachedNetworkImage(
+                                                      imageUrl:
+                                                          'https://image.tmdb.org/t/p/w500${tv.posterPath}',
+                                                      placeholder:
+                                                          (context, url) =>
+                                                              Center(
+                                                        child:
+                                                            CircularProgressIndicator(),
+                                                      ),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Icon(Icons.error),
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/no_images.png',
+                                                      width: 100,
+                                                      height: 150,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                             ),
                                           ),
                                         );
