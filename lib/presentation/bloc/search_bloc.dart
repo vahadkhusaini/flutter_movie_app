@@ -1,6 +1,6 @@
 import 'package:ditonton/domain/usecases/search_movies.dart';
-import 'package:ditonton/presentation/bloc/search_event.dart';
-import 'package:ditonton/presentation/bloc/search_state.dart';
+import 'package:ditonton/presentation/event/search_event.dart';
+import 'package:ditonton/presentation/state/search_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
