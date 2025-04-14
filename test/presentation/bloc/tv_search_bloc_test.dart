@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
-import 'package:ditonton/domain/usecases/search_movies.dart';
+import 'package:ditonton/domain/usecases/search_tv_series.dart';
 import 'package:ditonton/presentation/bloc/tv_search_bloc.dart';
 import 'package:ditonton/presentation/event/search_event.dart';
 import 'package:ditonton/presentation/state/tv_search_state.dart';
@@ -10,9 +10,9 @@ import 'package:mockito/annotations.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../provider/tv_search_notifier_test.mocks.dart';
+import 'tv_search_bloc_test.mocks.dart';
 
-@GenerateMocks([SearchMovies])
+@GenerateMocks([SearchTvSeries])
 void main() {
   late TvSearchBloc tvSearchBloc;
   late MockSearchTvSeries mockSearchTvSeries;
