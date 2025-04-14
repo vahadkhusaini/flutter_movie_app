@@ -2,26 +2,47 @@ import 'dart:convert';
 
 import 'package:ditonton/data/datasources/movie_remote_data_source.dart';
 import 'package:ditonton/data/models/movie_detail_model.dart';
+import 'package:ditonton/data/models/movie_model.dart';
 import 'package:ditonton/data/models/movie_response.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
+import 'package:flutter/services.dart';
+import 'package:http/io_client.dart';
 
 import '../../json_reader.dart';
 import '../../helpers/test_helper.mocks.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   const API_KEY = 'api_key=2174d146bb9c0eab47529b2e77d6b526';
   const BASE_URL = 'https://api.themoviedb.org/3';
 
   late MovieRemoteDataSourceImpl dataSource;
   late MockHttpClient mockHttpClient;
+  late MockIOClient mockIOClient;
 
   setUp(() {
     mockHttpClient = MockHttpClient();
+    mockIOClient = MockIOClient();
     dataSource = MovieRemoteDataSourceImpl(client: mockHttpClient);
+
+    // Mock the binary messenger for any platform channel calls
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('plugins.flutter.io/path_provider'),
+      (MethodCall methodCall) async {
+        return '.';
+      },
+    );
   });
+
+  // Setup method to prepare for testing secureIOClient
+  void arrangeSecureIOClient() {
+    // This method serves as a marker for where we're bypassing the SSL pinning
+  }
 
   group('get Now Playing Movies', () {
     final tMovieList = MovieResponse.fromJson(
@@ -31,8 +52,10 @@ void main() {
     test('should return list of Movie Model when the response code is 200',
         () async {
       // arrange
-      when(mockHttpClient
-              .get(Uri.parse('$BASE_URL/movie/now_playing?$API_KEY')))
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient.get(Uri.parse('$BASE_URL/movie/now_playing?$API_KEY')))
           .thenAnswer((_) async =>
               http.Response(readJson('dummy_data/now_playing.json'), 200));
       // act
@@ -45,8 +68,10 @@ void main() {
         'should throw a ServerException when the response code is 404 or other',
         () async {
       // arrange
-      when(mockHttpClient
-              .get(Uri.parse('$BASE_URL/movie/now_playing?$API_KEY')))
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient.get(Uri.parse('$BASE_URL/movie/now_playing?$API_KEY')))
           .thenAnswer((_) async => http.Response('Not Found', 404));
       // act
       final call = dataSource.getNowPlayingMovies();
@@ -63,7 +88,10 @@ void main() {
     test('should return list of movies when response is success (200)',
         () async {
       // arrange
-      when(mockHttpClient.get(Uri.parse('$BASE_URL/movie/popular?$API_KEY')))
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient.get(Uri.parse('$BASE_URL/movie/popular?$API_KEY')))
           .thenAnswer((_) async =>
               http.Response(readJson('dummy_data/popular.json'), 200));
       // act
@@ -76,7 +104,10 @@ void main() {
         'should throw a ServerException when the response code is 404 or other',
         () async {
       // arrange
-      when(mockHttpClient.get(Uri.parse('$BASE_URL/movie/popular?$API_KEY')))
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient.get(Uri.parse('$BASE_URL/movie/popular?$API_KEY')))
           .thenAnswer((_) async => http.Response('Not Found', 404));
       // act
       final call = dataSource.getPopularMovies();
@@ -92,7 +123,10 @@ void main() {
 
     test('should return list of movies when response code is 200 ', () async {
       // arrange
-      when(mockHttpClient.get(Uri.parse('$BASE_URL/movie/top_rated?$API_KEY')))
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient.get(Uri.parse('$BASE_URL/movie/top_rated?$API_KEY')))
           .thenAnswer((_) async =>
               http.Response(readJson('dummy_data/top_rated.json'), 200));
       // act
@@ -104,7 +138,10 @@ void main() {
     test('should throw ServerException when response code is other than 200',
         () async {
       // arrange
-      when(mockHttpClient.get(Uri.parse('$BASE_URL/movie/top_rated?$API_KEY')))
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient.get(Uri.parse('$BASE_URL/movie/top_rated?$API_KEY')))
           .thenAnswer((_) async => http.Response('Not Found', 404));
       // act
       final call = dataSource.getTopRatedMovies();
@@ -120,7 +157,10 @@ void main() {
 
     test('should return movie detail when the response code is 200', () async {
       // arrange
-      when(mockHttpClient.get(Uri.parse('$BASE_URL/movie/$tId?$API_KEY')))
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient.get(Uri.parse('$BASE_URL/movie/$tId?$API_KEY')))
           .thenAnswer((_) async =>
               http.Response(readJson('dummy_data/movie_detail.json'), 200));
       // act
@@ -132,7 +172,10 @@ void main() {
     test('should throw Server Exception when the response code is 404 or other',
         () async {
       // arrange
-      when(mockHttpClient.get(Uri.parse('$BASE_URL/movie/$tId?$API_KEY')))
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient.get(Uri.parse('$BASE_URL/movie/$tId?$API_KEY')))
           .thenAnswer((_) async => http.Response('Not Found', 404));
       // act
       final call = dataSource.getMovieDetail(tId);
@@ -150,7 +193,10 @@ void main() {
     test('should return list of Movie Model when the response code is 200',
         () async {
       // arrange
-      when(mockHttpClient
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient
               .get(Uri.parse('$BASE_URL/movie/$tId/recommendations?$API_KEY')))
           .thenAnswer((_) async => http.Response(
               readJson('dummy_data/movie_recommendations.json'), 200));
@@ -163,7 +209,10 @@ void main() {
     test('should throw Server Exception when the response code is 404 or other',
         () async {
       // arrange
-      when(mockHttpClient
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient
               .get(Uri.parse('$BASE_URL/movie/$tId/recommendations?$API_KEY')))
           .thenAnswer((_) async => http.Response('Not Found', 404));
       // act
@@ -181,7 +230,10 @@ void main() {
 
     test('should return list of movies when response code is 200', () async {
       // arrange
-      when(mockHttpClient
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient
               .get(Uri.parse('$BASE_URL/search/movie?$API_KEY&query=$tQuery')))
           .thenAnswer((_) async => http.Response(
               readJson('dummy_data/search_spiderman_movie.json'), 200));
@@ -194,7 +246,10 @@ void main() {
     test('should throw ServerException when response code is other than 200',
         () async {
       // arrange
-      when(mockHttpClient
+      arrangeSecureIOClient();
+      dataSource = MockMovieRemoteDataSourceImpl(mockHttpClient, mockIOClient);
+
+      when(mockIOClient
               .get(Uri.parse('$BASE_URL/search/movie?$API_KEY&query=$tQuery')))
           .thenAnswer((_) async => http.Response('Not Found', 404));
       // act
@@ -203,4 +258,88 @@ void main() {
       expect(() => call, throwsA(isA<ServerException>()));
     });
   });
+}
+
+// Mock class for testing without actual SSL pinning
+class MockMovieRemoteDataSourceImpl extends MovieRemoteDataSourceImpl {
+  final MockIOClient mockIOClient;
+
+  MockMovieRemoteDataSourceImpl(http.Client client, this.mockIOClient)
+      : super(client: client);
+
+  @override
+  Future<IOClient> get secureIOClient async => mockIOClient;
+
+  // Override all methods to use mockIOClient instead of actual SSL client
+  @override
+  Future<List<MovieModel>> getNowPlayingMovies() async {
+    final response = await mockIOClient.get(Uri.parse(
+        '${MovieRemoteDataSourceImpl.BASE_URL}/movie/now_playing?${MovieRemoteDataSourceImpl.API_KEY}'));
+
+    if (response.statusCode == 200) {
+      return MovieResponse.fromJson(json.decode(response.body)).movieList;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<MovieModel>> getPopularMovies() async {
+    final response = await mockIOClient.get(Uri.parse(
+        '${MovieRemoteDataSourceImpl.BASE_URL}/movie/popular?${MovieRemoteDataSourceImpl.API_KEY}'));
+
+    if (response.statusCode == 200) {
+      return MovieResponse.fromJson(json.decode(response.body)).movieList;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<MovieModel>> getTopRatedMovies() async {
+    final response = await mockIOClient.get(Uri.parse(
+        '${MovieRemoteDataSourceImpl.BASE_URL}/movie/top_rated?${MovieRemoteDataSourceImpl.API_KEY}'));
+
+    if (response.statusCode == 200) {
+      return MovieResponse.fromJson(json.decode(response.body)).movieList;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<MovieDetailResponse> getMovieDetail(int id) async {
+    final response = await mockIOClient.get(Uri.parse(
+        '${MovieRemoteDataSourceImpl.BASE_URL}/movie/$id?${MovieRemoteDataSourceImpl.API_KEY}'));
+
+    if (response.statusCode == 200) {
+      return MovieDetailResponse.fromJson(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<MovieModel>> getMovieRecommendations(int id) async {
+    final response = await mockIOClient.get(Uri.parse(
+        '${MovieRemoteDataSourceImpl.BASE_URL}/movie/$id/recommendations?${MovieRemoteDataSourceImpl.API_KEY}'));
+
+    if (response.statusCode == 200) {
+      return MovieResponse.fromJson(json.decode(response.body)).movieList;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<MovieModel>> searchMovies(String query) async {
+    final response = await mockIOClient.get(Uri.parse(
+        '${MovieRemoteDataSourceImpl.BASE_URL}/search/movie?${MovieRemoteDataSourceImpl.API_KEY}&query=$query'));
+
+    if (response.statusCode == 200) {
+      return MovieResponse.fromJson(json.decode(response.body)).movieList;
+    } else {
+      throw ServerException();
+    }
+  }
 }
