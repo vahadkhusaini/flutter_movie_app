@@ -3,15 +3,20 @@ import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/domain/usecases/get_popular_movies.dart';
 import 'package:ditonton/domain/usecases/get_popular_tv_series.dart';
 import 'package:ditonton/domain/usecases/get_top_rated_movies.dart';
+import 'package:ditonton/domain/usecases/get_watchlist_movies.dart';
+import 'package:ditonton/domain/usecases/get_watchlist_tv_series.dart';
 import 'package:ditonton/presentation/bloc/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie_list_bloc.dart';
 import 'package:ditonton/presentation/bloc/popular_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/popular_tv_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/top_rated_movies_bloc.dart';
+import 'package:ditonton/presentation/bloc/top_rated_tv_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_list_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_search_bloc.dart';
+import 'package:ditonton/presentation/bloc/watchlist_movie_bloc.dart';
+import 'package:ditonton/presentation/bloc/watchlist_tv_bloc.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
@@ -112,6 +117,19 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => di.locator<TvDetailBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TopRatedTvBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => WatchlistMovieBloc(
+            getWatchlistMovies: di.locator<GetWatchlistMovies>(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => WatchlistTvBloc(
+            getWatchlistTvSeries: di.locator<GetWatchlistTvSeries>(),
+          ),
         ),
       ],
       child: MaterialApp(
